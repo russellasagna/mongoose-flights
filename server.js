@@ -5,9 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var flightRouters = require('./routes/flights');
+var flightsRouters = require('./routes/flights');
 
 var app = express();
+// Load the secrets in the .env module
+require('dotenv').config();
+// Connect to our database (line of code must be AFTER the above - .env)
+require('./config/database');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', flightRouters);
+app.use('/flights', flightsRouters);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
