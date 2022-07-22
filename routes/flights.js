@@ -9,7 +9,7 @@ router.get('/', flightsCtrl.index);
 // GET /flights/new (new function)
 router.get('/new', flightsCtrl.new);
 // GET /flights/:id (show functionality)
-// router.get('/:id', flightsCtrl.show);
+router.get('/:id', flightsCtrl.show);
 // POST /flights (create function)
 router.post('/', flightsCtrl.create);
 
