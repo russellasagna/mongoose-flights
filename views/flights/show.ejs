@@ -1,12 +1,73 @@
 <%- include('../partials/header') %>
 
-<section id="show-page">
-  <div>Airline: <%= flight.airline %></div><br>
-  <div>Airport: <%= flight.airport %></div><br>
-  <div>Flight No.: <%= flight.flightNo %></div><br>
-  <div>Departure Time: <%= flight.departs %></div><br>
+<h1>Flight</h1>
+<section>
+    <div>Airline: <%= flight.airline %></div>
+    <div>Airport: <%= flight.airport %></div>
+    <div>Flight Number: <%= flight.flightNo %></div>
+    <div>Departure: <%= flight.departs.toLocaleDateString() %></div> 
+    
 </section>
 
-<input type="submit" value="Add Destination">
+<br><br><h2>Tickets:</h2>
+
+<% if (tickets.length) { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Seat Number</th>
+                <th>Ticket Price</th>
+            </tr>
+        </thead>
+    <tbody>
+  <% tickets.forEach(function(t) { %>
+          <tr>
+              <td><%= t.seat %></td>
+              <td>$<%= t.price %></td>
+          </tr>
+          <% }) %>
+      </tbody>
+  </table>
+  <% } else { %>
+      <h4>None</h4>
+  <% } %>
+
+<div><a href="/flights/<%= flight._id %>/tickets/new"><button>New Ticket</button></a></div>
+
+<br><br><h2>Destinations</h2>
+<form id='destination' method="POST" action="/flights/<%= flight._id %>/destinations">
+    <label>Airport: </label>
+    <select name="airport">
+        <option value="AUS">AUS</option>
+        <option value="DFW">DFW</option>
+        <option value="DEN" selected>DEN</option>
+        <option value="LAX">LAX</option>
+        <option value="SAN">SAN</option>
+    </select><br>
+    <label>Arrival: </label> 
+        <input type="datetime-local" name="arrival"><br><br>
+    <input type="submit" value="Add Destination">
+</form>
+
+<% if (flight.destinations.length) { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Destination</th>
+                <th>Arrival</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% flight.destinations.forEach(function(f) { %>
+                <tr>
+                    <td><%= f.airport %></td>
+                    <td><%= f.arrival.toLocaleDateString() %>&nbsp;<%= f.arrival.toLocaleTimeString() %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+<% } else { %>
+    <h4>No Destinations</h4>
+<% } %>
   
 <%- include('../partials/footer') %>
